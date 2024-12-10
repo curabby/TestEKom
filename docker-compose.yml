@@ -1,0 +1,23 @@
+version: '3.8'
+services:
+  mongodb:
+    image: mongo:6.0
+    container_name: mongodb
+    networks:
+      - app_network
+    ports:
+      - "27017:27017"
+
+  django_app:
+    build:
+      context: .
+    depends_on:
+      - mongodb
+    environment:
+      - DJANGO_DB_HOST=mongodb
+    networks:
+      - app_network
+    ports:
+      - "8000:8000"
+networks:
+  app_network:
